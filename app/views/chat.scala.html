@@ -8,16 +8,17 @@
 <link
 	href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css"
 	rel="stylesheet">
+	
 
 <div class="container">
 	<div class="row " style="padding-top: 40px;">
 		<div class="col-md-8">
-			<div class="panel panel-info" style="height: 360px;">
+			<div class="panel panel-info" style="height: 360px; max-height: 360px; overflow: auto;">
 				<div class="panel-heading">RECENT MESSAGES:</div>
 				<div class="panel-body">
 					<ul class="media-list" style="height: 220px;">
 
-						<li class="media">
+						<li class="media" ng-repeat="msg in msgs">
 
 							<div class="media-body">
 
@@ -26,11 +27,8 @@
 										class="media-object img-circle " src="{{userImageUrl}}" />
 									</a>
 									<div class="media-body">
-										Donec sit amet ligula enim. Duis vel condimentum massa. Donec
-										sit amet ligula enim. Duis vel condimentum massa.Donec sit
-										amet ligula enim. Duis vel condimentum massa. Donec sit amet
-										ligula enim. Duis vel condimentum massa. <br /> <small
-											class="text-muted">Alex Deo | 23rd June at 5:00pm</small>
+										{{msg.text}} <br /> <small
+											class="text-muted">{{msg.user}} | {{msg.time | date:'MM/dd/yyyy'}}</small>
 										<hr />
 									</div>
 								</div>
@@ -42,8 +40,8 @@
 				<div class="panel-footer">
 					<div class="input-group">
 						<input type="text" class="form-control"
-							placeholder="Enter Message" /> <span class="input-group-btn">
-							<button class="btn btn-info" type="button">SEND</button>
+							placeholder="Enter Message" ng-model="inputText"/> <span class="input-group-btn">
+							<button class="btn btn-info" type="button" ng-click="submitMsg()">SEND</button>
 						</span>
 					</div>
 				</div>
