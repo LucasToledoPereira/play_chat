@@ -1,0 +1,83 @@
+<div>
+	<div class="header_user">
+		<img src={{userImageUrl}}><span class="regular_text">Welcome,</span><span
+			class="user_span"> {{userName}}</span>
+		<div class="logout_button">
+			<button ng-click="signOut()">LogOut</button>
+		</div>
+	</div>
+
+	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+
+	<div class="container">
+		<div class="row " style="padding-top: 40px;">
+			<div class="col-md-8">
+				<div id="messages_div" class="panel panel-info"
+					style="height: 360px; max-height: 360px; overflow: auto;">
+					<div class="panel-heading">RECENT MESSAGES:</div>
+					<div class="panel-body">
+						<ul class="media-list" style="height: 220px;">
+
+							<li class="media" ng-repeat="msg in msgs">
+
+								<div class="media-body">
+
+									<div class="media">
+										<a class="pull-left" href="#"> <img
+											class="media-object img-circle " src="{{msg.imageUrl}}" />
+										</a>
+										<div class="media-body">
+											{{msg.text}} <br /> <small class="text-muted">{{msg.user}}
+												| {{msg.time | date:'dd/MM/yyyy HH:mm'}}</small>
+											<hr />
+										</div>
+									</div>
+
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="bg-info">{{warnText}}</div>
+				<div class="panel-footer">
+					<div class="input-group">
+						<input id="input_message" type="text" class="form-control"
+							placeholder="Enter Message" ng-model="inputText"
+							 ng-blur="blurFunction()" ng-focus="teste()"/> <span class="input-group-btn">
+							<button class="btn btn-info" type="button" ng-click="submitMsg()">SEND</button>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="panel panel-primary"
+					style="height: 360px; overflow: auto">
+					<div class="panel-heading">ONLINE USERS</div>
+					<div class="panel-body">
+						<ul class="media-list">
+
+							<li class="media" ng-repeat="member in membersRoom">
+
+								<div class="media-body">
+
+									<div class="media">
+										<a class="pull-left" href="#"> <img
+											class="media-object img-circle" style="max-height: 40px;"
+											src="{{member.image}}" />
+										</a>
+										<div class="media-body">
+											<h5>{{member.userName}}</h5>
+										</div>
+									</div>
+
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
