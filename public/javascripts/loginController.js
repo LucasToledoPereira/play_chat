@@ -14,18 +14,19 @@ app.controller("loginController", function($scope, $http, $location){
 	$scope.doLogin = function (){
 //		var auth2 = gapi.auth2.getAuthInstance();
 		$location.path("/chat");
-		$scope.$apply();
 	}
 	var scope = $scope;
 	var httpService = $http;
 	var location = $location;
 	
 	$scope.changeLocation = function(){
-		$http.post("/login", {userName: $scope.$parent.userName, imageURL:$scope.$parent.userImageUrl, email:$scope.$parent.userEmail}).success(function(data){
-			debugger;
-			$location.path("/chat");
+		if($scope.$parent.justSignOut){
+			gapi.auth2.getAuthInstance().signOut();
+			$scope.$parent.justSignOut = false;
+		}else{
+			$location.path("/chat");	
 			$scope.$apply();
-		});
+		}
 	}
 	
 	$scope.setUser = function(user){
@@ -37,10 +38,6 @@ app.controller("loginController", function($scope, $http, $location){
 	
 	$scope.onSuccessLogin = function(googleUser){
 		var profile = googleUser.getBasicProfile();
-//		console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-//		console.log('Name: ' + profile.getName());
-//		console.log('Image URL: ' + profile.getImageUrl());
-//		console.log('Email: ' + profile.getEmail());
 		scope.setUser(profile);
 		scope.changeLocation();
 	}

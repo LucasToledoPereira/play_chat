@@ -34,5 +34,10 @@ public class UserVO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	@Override
+	public String toString(){
+		return "{\"userName\":\""+this.name+"\", \"image\":\""+this.imageURL+ "\", \"email\":\""+this.email+"\"}";	
+	}
 
 }

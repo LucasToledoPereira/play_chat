@@ -7,11 +7,11 @@ app.config(function($routeProvider, $locationProvider)
 	 });
    $routeProvider
    .when('/login', {
-      templateUrl : 'login',
+      templateUrl : 'assets/templates/login.html',
       controller  : 'loginController',
    }).
    when('/chat', {
-	   templateUrl : 'chat',
+	   templateUrl : 'assets/templates/chat.html',
 	   controller  : 'chatController',
    })
    
