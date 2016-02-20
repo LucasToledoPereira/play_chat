@@ -2,7 +2,7 @@
 
 ## Procedimentos Para Executar Projeto
 
-###### - Requisitos:
+###### * Requisitos:
 Para executar o projeto é necessario ter instalado na máquina as seguintes ferramentas:
 
 * Bower
@@ -11,5 +11,5 @@ Para executar o projeto é necessario ter instalado na máquina as seguintes fer
     
     
     
-###### - Passos:
+###### * Passos:
     
