@@ -15,6 +15,6 @@ app.config(function($routeProvider, $locationProvider)
 	   controller  : 'chatController',
    })
    
-   // caso não seja nenhum desses, redirecione para a rota '/'
+   // caso não seja nenhum desses, redirecione para a rota '/login'
    .otherwise ({ redirectTo: '/login' });
 });

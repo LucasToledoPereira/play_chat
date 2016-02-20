@@ -21,53 +21,42 @@ import play.mvc.Controller;
 import play.mvc.Http.RequestBody;
 import play.mvc.Result;
 
+/**
+ * Classe responsavel pelo controle da aplicacao
+ * @author Lucas
+ *
+ */
 public class Application extends Controller {
 
-	//	HashMap<String, UserVO> memberList = new HashMap<String, UserVO>();
 
-	/** Keeps track of all connected browsers per room **/
 	private static Map<String, List<EventSource>> socketsPerRoom = new HashMap<String, List<EventSource>>();
 	private JsonNode membersRoom;
 	private EventSource currentSocket;
 
-
+	//Responsavel pela inicializacao e renderizacao do html inicial Index
 	public Result index() {
 		return ok(index.render());
 	}
 
-	/**
-	 * Controller action for POSTing chat messages
-	 */
+	//Responsavel por repassar as mensagens enviadas para os demais usuarios
 	public Result postMessage() {
 		sendEvent(request().body().asJson());
 		return ok();
 	}
 
-	/**
-	 * Send event to all channels (browsers) which are connected to the room
-	 */
+	//Executa e envia um evento para todos os (browser) usuarios logados
 	public void sendEvent(JsonNode msg) {
 		String room  = msg.findPath("room").textValue();
 		if(socketsPerRoom.containsKey(room)) {
 			socketsPerRoom.get(room).stream().forEach(es -> es.send(EventSource.Event.event(msg)));
 		}
 	}
-
-
-	/**
-	 * Establish the SSE HTTP 1.1 connection.
-	 * The new EventSource socket is stored in the socketsPerRoom Map
-	 * to keep track of which browser is in which room.
-	 *
-	 * onDisconnected removes the browser from the socketsPerRoom Map if the
-	 * browser window has been exited.
-	 * @return
-	 */
+	
+	//Cria as conexoes dos membros 
 	public Result chatFeed(String room) {
 		JsonNode json = request().body().asJson();
 	
 		String remoteAddress = request().remoteAddress();
-		Logger.info(remoteAddress + " - SSE conntected");
 
 		return ok(new EventSource() {
 			@Override
@@ -75,7 +64,6 @@ public class Application extends Controller {
 				currentSocket = this;
 
 				this.onDisconnected(() -> {
-					Logger.info(remoteAddress + " - SSE disconntected");
 					socketsPerRoom.compute(room, (key, value) -> {
 						if(value.contains(currentSocket))
 							value.remove(currentSocket);
@@ -96,7 +84,8 @@ public class Application extends Controller {
 		});
 	}
 
-
+	
+	// Adiciona membros ao chat e envia um evento para todos avisando que ha um novo membro
 	public Result chatMembers() {
 		JsonNode members = request().body().asJson();
 		HashMap<String,String> map = new Gson().fromJson(members.toString(), new TypeToken<HashMap<String, String>>(){}.getType());
@@ -130,6 +119,7 @@ public class Application extends Controller {
 	}
 
 
+	//Remove o usuario e a conexao
 	public Result signOut(){
 		JsonNode json = request().body().asJson();
 		String email = json.get("email").textValue();

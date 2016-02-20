@@ -7,9 +7,6 @@
 		</div>
 	</div>
 
-	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-
-
 	<div class="container">
 		<div class="row " style="padding-top: 40px;">
 			<div class="col-md-8">
@@ -44,9 +41,10 @@
 					<div class="input-group">
 						<input id="input_message" type="text" class="form-control"
 							placeholder="Enter Message" ng-model="inputText"
-							 ng-blur="blurFunction()" ng-focus="teste()"/> <span class="input-group-btn">
-							<button class="btn btn-info" type="button" ng-click="submitMsg()">SEND</button>
-						</span>
+							ng-blur="blurFunction()" ng-focus="teste()" maxlength="1000"/> 
+							<span class="input-group-btn">
+								<button class="btn btn-info" type="button" ng-click="submitMsg()">SEND</button>
+							</span>
 					</div>
 				</div>
 			</div>

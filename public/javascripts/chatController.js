@@ -10,6 +10,7 @@ app.controller("chatController", function($scope, $http, $location, $timeout){
 	$scope.warnText=""; 
 	
 
+	//Funcao responsavel pelo LogOut da aplicacao
 	$scope.signOut = function(){
 		var logout = gapi.auth2.getAuthInstance().signOut();
 		$scope.$parent.justSignOut = true;
@@ -20,6 +21,7 @@ app.controller("chatController", function($scope, $http, $location, $timeout){
 	}
 	   
     
+	//Funcao responsavel por adicionar as mensagens no chat, adicionar o membros online e os avisos
     $scope.addMsg = function (msg) {
         $scope.$apply(function () {
         	var msgData = JSON.parse(msg.data);
@@ -44,15 +46,17 @@ app.controller("chatController", function($scope, $http, $location, $timeout){
     
     
     
-    /* posting chat text to server */
+    //Funcao responsavel por enviar uma mensagem escrita
     $scope.submitMsg = function () {
-        $http.post("/chat", { text: $scope.inputText, user: $scope.userName,
-            time: (new Date()).toUTCString(), room: $scope.currentRoom.value, imageUrl: $scope.userImageUrl});
-        $scope.inputText = "";
+    	if($scope.inputText){
+    		$http.post("/chat", { text: $scope.inputText, user: $scope.userName,
+    			time: (new Date()).toUTCString(), room: $scope.currentRoom.value, imageUrl: $scope.userImageUrl});
+    	}
+    	$scope.inputText = "";    		
     };
     
 	
-    /* start listening on messages from selected room */
+    //Funcao responsavel pela criacao do listener da sala
     $scope.listenMsg = function () {
         $scope.chatFeed = new EventSource("/chatFeed/" + $scope.currentRoom.value);
         $scope.chatFeed.addEventListener("message", $scope.addMsg, false);
@@ -60,11 +64,13 @@ app.controller("chatController", function($scope, $http, $location, $timeout){
 
     };
     
+   //Funcao responsavel por adicionar o usuario nos membros online
    function setMember(){
 	   $http.post("/chatMembers", {userName: $scope.$parent.userName,
        	imageURL:$scope.$parent.userImageUrl, email:$scope.$parent.userEmail, action: "add", room: $scope.currentRoom.value});
    }
    
+   //Watch responsavel por limpar os avisos apos 5 segundos
    $scope.$watch("warnText", function(newValue){
 	   if(newValue){
 		   $timeout(function(){
@@ -73,6 +79,7 @@ app.controller("chatController", function($scope, $http, $location, $timeout){
 	   }
    });
    
+   //Funcao de blur (ainda nao desenvolvida)
    $scope.blurFunction = function(){
 //	   $timeout(function(){
 //		   debugger;
